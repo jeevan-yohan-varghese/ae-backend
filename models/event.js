@@ -5,7 +5,8 @@ module.exports = (sequelize, { DataTypes }) => {
         startdate: DataTypes.DATE,
         enddate: DataTypes.DATE,
         name: DataTypes.STRING,
-        seats: DataTypes.INTEGER
+        seats: DataTypes.INTEGER,
+        vid:DataTypes.STRING
        
     });
 

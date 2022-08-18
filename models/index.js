@@ -30,15 +30,13 @@ db.events = require("./event")(sequelize, Sequelize);
 db.participants = require("./participant")(sequelize, Sequelize);
 db.participantEvents = require("./participant_event")(sequelize, Sequelize);
 db.venues = require('./venue')(sequelize, Sequelize);
-db.eventVenues = require('./event_venue')(sequelize, Sequelize);
 
 db.participants.belongsToMany(db.events, { through: db.participantEvents, foreignKey: 'pid' });
 db.events.belongsToMany(db.participants, { through: db.participantEvents, foreignKey: 'eid' })
 db.participantEvents.belongsTo(db.events, { foreignKey: 'eid' })
 db.participantEvents.belongsTo(db.participants, { foreignKey: 'pid' })
 
-db.eventVenues.belongsTo(db.events, { foreignKey: 'eid' })
-db.eventVenues.belongsTo(db.venues, { foreignKey: 'vid' })
+db.events.hasOne(db.venues, { foreignKey: 'vid' })
 
 
 

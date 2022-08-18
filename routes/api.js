@@ -21,13 +21,22 @@ router.get('/', (req, res, next) => {
 router.post('/newEvent', async (req, res, next) => {
     const newId = uuidv4()
 
-    const newEvent = { eid: newId, name: req.body.name, startdate: new Date(), enddate: new Date(), seats: req.body.seats }
+    Venue.findOne({where:{vid:req.body.vid}}).then(venue=>{
+        if(!venue){
+            return res.status(400).json({ "error": true, "message": "Venue not found" })
+        }
+
+        if(venue.capacity<req.body.seats){
+            return res.status(400).json({ "error": true, "message": "Not enough capacity" })
+        }
+    })
+    const newEvent = { eid: newId, name: req.body.name, startdate: req.body.startDate, enddate: req.body.endDate, seats: req.body.seats,vid:req.body.venueId }
     Event.create(newEvent)
         .then(data => {
-            res.send(data);
+            return res.json(data);
         })
         .catch(err => {
-            res.status(500).send({
+            return res.status(500).send({
                 message:
                     err.message || "Some error occurred while creating the Event."
             });
