@@ -15,10 +15,13 @@ Backend for events app
 - [x] Get My Events
 ## Features
 
-Postgresql with sequelize ORM
-JWT based authentication
-middlewares (apikey, auth)
-Firebase auth email/google
+- Postgresql with sequelize ORM
+
+- JWT based authentication
+
+- middlewares (apikey, auth)
+
+- Firebase auth email/google
 
 
 
