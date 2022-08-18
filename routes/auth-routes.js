@@ -52,7 +52,7 @@ router.post('/signup', verifyApiKey, (req, res, next) => {
                 Participant.create(newParticipant)
                     .then(user => {
                         const token = jwt.sign({ _email: user.email, _name: user.name, _pid: user.pid }, process.env.TOKEN_SECRET);
-                        return res.json({ "success": "true", "jwt": token });
+                        return res.json({ "success": true, "jwt": token,"user":user });
                     })
                     .catch(err => {
                         res.status(500).send({
