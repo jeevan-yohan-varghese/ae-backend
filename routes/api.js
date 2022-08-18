@@ -34,7 +34,7 @@ router.post('/newEvent', async (req, res, next) => {
         const newEvent = { eid: newId, name: req.body.name, startdate: req.body.startDate, enddate: req.body.endDate, seats: req.body.seats, vid: req.body.venueId }
         Event.create(newEvent)
             .then(data => {
-                return res.json(data);
+                return res.json({"success":true,"message":"created event","event":data});
             })
             .catch(err => {
                 return res.status(500).send({
