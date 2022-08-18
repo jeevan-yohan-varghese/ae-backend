@@ -50,7 +50,7 @@ router.post('/newEvent', async (req, res, next) => {
 
 router.get('/getAllEvents', (req, res, next) => {
     Event.findAll().then(data => {
-        res.send(data);
+        res.json({"events":data});
     })
 })
 
