@@ -21,26 +21,29 @@ router.get('/', (req, res, next) => {
 router.post('/newEvent', async (req, res, next) => {
     const newId = uuidv4()
 
-    Venue.findOne({where:{vid:req.body.vid}}).then(venue=>{
-        if(!venue){
+    Venue.findOne({ where: { vid: `${req.body.venueId}` } }).then(venue => {
+        console.log(`Venue:${venue}`);
+        if (!venue) {
             return res.status(400).json({ "error": true, "message": "Venue not found" })
         }
 
-        if(venue.capacity<req.body.seats){
+        if (venue.capacity < req.body.seats) {
             return res.status(400).json({ "error": true, "message": "Not enough capacity" })
         }
-    })
-    const newEvent = { eid: newId, name: req.body.name, startdate: req.body.startDate, enddate: req.body.endDate, seats: req.body.seats,vid:req.body.venueId }
-    Event.create(newEvent)
-        .then(data => {
-            return res.json(data);
-        })
-        .catch(err => {
-            return res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the Event."
+
+        const newEvent = { eid: newId, name: req.body.name, startdate: req.body.startDate, enddate: req.body.endDate, seats: req.body.seats, vid: req.body.venueId }
+        Event.create(newEvent)
+            .then(data => {
+                return res.json(data);
+            })
+            .catch(err => {
+                return res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while creating the Event."
+                });
             });
-        });
+    })
+
 
 
 });
@@ -197,11 +200,11 @@ router.delete('/deleteVenue', (req, res, next) => {
 
     Venue.findOne({ where: { vid: req.body.venueId } }).then(venue => {
 
-        if(!venue){
+        if (!venue) {
             return res.status(400).json({ "success": false, "message": "Invalid venue id" });
         }
         venue.destroy().then(num => {
-            return res.json({"success": true, "message": "Delete venue"})
+            return res.json({ "success": true, "message": "Delete venue" })
         })
     });
 
