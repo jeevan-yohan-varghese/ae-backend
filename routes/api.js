@@ -160,7 +160,7 @@ router.get('/myEvents', verifyUserAuth, (req, res, next) => {
             { model: Event }
         ]
     }).then(events => {
-        return res.json(events);
+        return res.json({"my_events":events});
     });
 
     //   return cookoffParticpants.findOne({
