@@ -23,5 +23,23 @@ Backend for events app
 
 - Firebase auth email/google
 
+##  Requirements
+
+Following env variables are required
+
+- API_KEY
+- TOKEN_SECRET
+- DB_USER
+- DB_PWD
+- DB_HOST
+- DB_NAME
+- DB_PORT
+- DB_CONNECTION_STRING
+- FIREBASE_PROJECT_ID
+- FIREBASE_PRIVATE_KEY
+- FIREBASE_CLIENT_EMAIL
+
+
+
 
 
