@@ -34,7 +34,7 @@ router.post('/newEvent', async (req, res, next) => {
         const newEvent = { eid: newId, name: req.body.name, startdate: req.body.startDate, enddate: req.body.endDate, seats: req.body.seats, vid: req.body.venueId }
         Event.create(newEvent)
             .then(data => {
-                return res.json({"success":true,"message":"created event","event":data});
+                return res.json({ "success": true, "message": "created event", "event": data });
             })
             .catch(err => {
                 return res.status(500).send({
@@ -50,7 +50,7 @@ router.post('/newEvent', async (req, res, next) => {
 
 router.get('/getAllEvents', (req, res, next) => {
     Event.findAll().then(data => {
-        res.json({"events":data});
+        res.json({ "events": data });
     })
 })
 
@@ -160,7 +160,7 @@ router.get('/myEvents', verifyUserAuth, (req, res, next) => {
             { model: Event }
         ]
     }).then(events => {
-        return res.json({"my_events":events});
+        return res.json({ "my_events": events });
     });
 
     //   return cookoffParticpants.findOne({
@@ -215,6 +215,29 @@ router.get('/getAllVenues', (req, res, next) => {
         res.send(data);
     })
 })
+
+router.post('/checkin', verifyUserAuth, (req, res, next) => {
+    db.checkins.findOne({ where: { ucode: req.body.ucode } }).then(ch => {
+        if (ch) {
+            return res.status(400).json({ "success": false, "message": "already checked in" })
+        }
+
+        ParticipantEvent.findOne({
+            where: { ucode: req.body.ucode },
+            include: [
+                { model: Participant },
+                { model: Event }
+            ]
+        }).then(events => {
+            db.checkins.create({ ucode: req.body.ucode }).then(num => {
+                return res.json({ "my_events": events });
+            });
+
+        });
+
+    });
+})
+
 
 
 
