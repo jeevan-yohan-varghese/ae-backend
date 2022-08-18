@@ -27,7 +27,7 @@ router.post('/login', verifyApiKey, (req, res, next) => {
                     return res.status(400).json({ "success": false, "message": "user not found" });
                 }
                 const token = jwt.sign({ _email: user.email, _name: user.name, _pid: user.pid }, process.env.TOKEN_SECRET);
-                return res.json({ "success": "true", "jwt": token });
+                return res.json({ "success": true, "jwt": token,"user":user });
             })
 
 
